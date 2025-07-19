@@ -339,7 +339,8 @@ export function RandomQuizViewer({ onQuizSetsUpdate }: RandomQuizViewerProps) {
                           </div>
                         </div>
                       )}
-                      
+                      {/* 답안 영역 */}
+
                     </CardContent>
                   </Card>
                 ))}

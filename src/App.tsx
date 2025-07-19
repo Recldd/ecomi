@@ -6,6 +6,7 @@ import { QuizPlayer } from "./components/QuizPlayer";
 import { RefreshCw, Play, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import './globals.css';
+import { fetchUserInfo, UserInfo } from './api/userApi';
 
 type ScreenType = "main" | "quiz-viewer" | "quiz-player" | "robot-connect";
 
@@ -14,15 +15,27 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>("main");
   const [quizKey, setQuizKey] = useState(0); // 퀴즈 컴포넌트 재렌더링용
   const [savedQuizSets, setSavedQuizSets] = useState<QuizSet[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  // const handleRobotConnect = () => {
+  //   console.log("로봇 연결 버튼 클릭됨");
+  //   // 로봇 연결 로직 구현
+  //   setCurrentScreen("robot-connect");
+  // };
 
   const handleRobotConnect = () => {
-    console.log("로봇 연결 버튼 클릭됨");
-    // 로봇 연결 로직 구현
+
+
     setCurrentScreen("robot-connect");
   };
 
+
   const handleQuizViewer = () => {
-    console.log("퀴즈 조회 시작");
+  fetchUserInfo()
+    .then((data) => setUserInfo(data))
+    .catch((error) => console.error('사용자 정보 로딩 실패:', error));
+
+    //console.log("퀴즈 조회 시작", data);
     setCurrentScreen("quiz-viewer");
   };
 
@@ -50,6 +63,7 @@ export default function App() {
   };
 
   const handleQuizSetsUpdate = (quizSets: QuizSet[]) => {
+    console.log("퀴즈셋 업데이트");
     setSavedQuizSets(quizSets);
   };
 
